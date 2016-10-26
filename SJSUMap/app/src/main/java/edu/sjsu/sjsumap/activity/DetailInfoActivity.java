@@ -1,7 +1,7 @@
 package edu.sjsu.sjsumap.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +29,7 @@ public class DetailInfoActivity extends AppCompatActivity {
         time = (TextView) findViewById(R.id.time);
         distance = (TextView) findViewById(R.id.tDistance);
         streetView = (Button) findViewById(R.id.streetView);
-        locImage = (ImageView)findViewById(R.id.locImage);
+        locImage = (ImageView)findViewById(R.id.locimage);
 
         AddressInfo addressInfo = LocationService.getInstance().getBuildingDetails();
         name.setText(addressInfo.getName());

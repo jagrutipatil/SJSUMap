@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         AddressInfo kingsLibrary = new AddressInfo(131, 257, 668, 862);
         kingsLibrary.setName("King Library");
         kingsLibrary.setAddress("Dr. Martin Luther King, Jr. Library,\n150 East San Fernando Street,\nSan Jose, CA 95112");
-        kingsLibrary.setImageId(R.drawable.kingsLibrary);
+        kingsLibrary.setImageId(R.drawable.kingslibrary);
         addressInfoList.add(kingsLibrary);
 
         //engg building
