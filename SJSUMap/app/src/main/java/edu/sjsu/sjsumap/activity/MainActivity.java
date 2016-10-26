@@ -9,17 +9,29 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.sjsu.sjsumap.R;
-import edu.sjsu.sjsumap.model.AddressInfo;
+import edu.sjsu.sjsumap.model.BuildingInfo;
+import edu.sjsu.sjsumap.model.LatLong;
 import edu.sjsu.sjsumap.model.LocationService;
+import edu.sjsu.sjsumap.tasks.GoogleAPITask;
 
 public class MainActivity extends AppCompatActivity {
 
     private ImageView map = null;
-    List<AddressInfo> addressInfoList = new ArrayList<>();
+    List<BuildingInfo> buildingInfoList = new ArrayList<>();
 
 
     @Override
@@ -28,15 +40,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         map = (ImageView) findViewById(R.id.map);
 
+        //TODO add this locations to campus info and access from there
         //TODO create the Address info objects with building
         //131- 257 x wide,668 - 862 long
-        AddressInfo kingsLibrary = new AddressInfo(131, 257, 668, 862);
+        BuildingInfo kingsLibrary = new BuildingInfo(131, 257, 668, 862);
+
         kingsLibrary.setName("King Library");
         kingsLibrary.setAddress("Dr. Martin Luther King, Jr. Library,\n150 East San Fernando Street,\nSan Jose, CA 95112");
+        kingsLibrary.setLatLong(new LatLong(37.335507, -121.884999));
         kingsLibrary.setImageId(R.drawable.kingslibrary);
-        addressInfoList.add(kingsLibrary);
+        buildingInfoList.add(kingsLibrary);
 
+        final LatLong userLocation = new LatLong(37.337476, -121.881539);
         //engg building
+        //lati: 37.337476, long:
 
         map.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -45,21 +62,39 @@ public class MainActivity extends AppCompatActivity {
                 coordinates[0] = event.getX();
                 coordinates[1] = event.getY();
 
-                for (AddressInfo addressInfo : addressInfoList) {
-                    if (addressInfo.isTheBuilding(coordinates[0], coordinates[1])) {
-                        showTapInfo(addressInfo);
+                for (BuildingInfo buildingInfo : buildingInfoList) {
+                    if (buildingInfo.isTheBuilding(coordinates[0], coordinates[1])) {
+                        try {
+                            LocationService.getInstance().setBuildingDetails(buildingInfo);
+                            new GoogleAPITask(getApplicationContext()).execute(getGoogleAPIURL(userLocation, buildingInfo.getLatLong()));
+                            showTapInfo(buildingInfo);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-                //TODO show image and calculate distance using google api
-                // what to use as a current location?
+                //TODO calculate distance using google api
                 return false;
             }
         });
     }
 
-    private void showTapInfo(AddressInfo addressInfo) {
+    private String getGoogleAPIURL(LatLong currentLocation, LatLong destination) throws IOException {
+        //Google matrix API url
+        String stringURL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
+                Double.toString(currentLocation.getLatitude()) +
+                "," +
+                Double.toString(currentLocation.getLatitude()) +
+                "&destinations=" +
+                Double.toString(destination.getLatitude()) +
+                "," +
+                Double.toString(destination.getLongitude());
+        return stringURL;
+    }
+
+    private void showTapInfo(BuildingInfo buildingInfo) {
         final AlertDialog.Builder addressBuilder = new AlertDialog.Builder(MainActivity.this);
-        addressBuilder.setMessage(addressInfo.getAddress());
+        addressBuilder.setMessage(buildingInfo.getAddress());
         final AlertDialog mapAddress = addressBuilder.create();
         mapAddress.show();
         new Handler().postDelayed(new Runnable() {
@@ -69,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 2000);
 
-        LocationService.getInstance().setBuildingDetails(addressInfo);
-        Intent intent = new Intent(this, DetailInfoActivity.class);
-        startActivity(intent);
+//        LocationService.getInstance().setBuildingDetails(buildingInfo);
+//        Intent intent = new Intent(this, DetailInfoActivity.class);
+//        startActivity(intent);
     }
 }

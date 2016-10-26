@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.sjsu.sjsumap.R;
-import edu.sjsu.sjsumap.model.AddressInfo;
+import edu.sjsu.sjsumap.model.BuildingInfo;
 import edu.sjsu.sjsumap.model.LocationService;
 
 //TODO backpress
@@ -31,12 +31,13 @@ public class DetailInfoActivity extends AppCompatActivity {
         streetView = (Button) findViewById(R.id.streetView);
         locImage = (ImageView)findViewById(R.id.locimage);
 
-        AddressInfo addressInfo = LocationService.getInstance().getBuildingDetails();
-        name.setText(addressInfo.getName());
-        address.setText(addressInfo.getAddress());
-//        time.setText(addressInfo.g);
-//        distance.setText();
-        locImage.setImageResource(addressInfo.getImageId());
+        BuildingInfo buildingInfo = LocationService.getInstance().getBuildingDetails();
+        name.setText(buildingInfo.getName());
+        address.setText(buildingInfo.getAddress());
+        distance.setText(buildingInfo.getDistance());
+        time.setText(buildingInfo.getTime());
+
+        locImage.setImageResource(buildingInfo.getImageId());
     }
 
 

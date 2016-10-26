@@ -6,7 +6,7 @@ package edu.sjsu.sjsumap.model;
 public class LocationService {
     private static LocationService INSTANCE = null;
 
-    private AddressInfo addressInfo = null;
+    private BuildingInfo buildingInfo = null;
 
     public static LocationService getInstance() {
         if (INSTANCE == null) {
@@ -19,15 +19,15 @@ public class LocationService {
     }
 
 
-    public void setBuildingDetails(AddressInfo addressInfo) {
-        this.addressInfo = addressInfo;
+    public void setBuildingDetails(BuildingInfo buildingInfo) {
+        this.buildingInfo = buildingInfo;
     }
 
-    public AddressInfo getBuildingDetails() {
-        return addressInfo;
+    public BuildingInfo getBuildingDetails() {
+        return buildingInfo;
     }
 
     public void reset() {
-        addressInfo = null;
+        buildingInfo = null;
     }
 }
