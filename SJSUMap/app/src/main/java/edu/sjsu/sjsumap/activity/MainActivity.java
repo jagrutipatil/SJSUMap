@@ -1,6 +1,6 @@
-package edu.sjsu.sjsumap;
+package edu.sjsu.sjsumap.activity;
 
-import android.app.Dialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,10 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.sjsu.sjsumap.R;
+import edu.sjsu.sjsumap.model.AddressInfo;
+import edu.sjsu.sjsumap.model.LocationService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         AddressInfo kingsLibrary = new AddressInfo(131, 257, 668, 862);
         kingsLibrary.setName("King Library");
         kingsLibrary.setAddress("Dr. Martin Luther King, Jr. Library,\n150 East San Fernando Street,\nSan Jose, CA 95112");
+        kingsLibrary.setImageId(R.drawable.kingsLibrary);
         addressInfoList.add(kingsLibrary);
+
         //engg building
 
         map.setOnTouchListener(new View.OnTouchListener() {
@@ -41,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
                 for (AddressInfo addressInfo : addressInfoList) {
                     if (addressInfo.isTheBuilding(coordinates[0], coordinates[1])) {
-                        showTapInfo(addressInfo.getName(),addressInfo.getAddress());
+                        showTapInfo(addressInfo);
                     }
                 }
                 //TODO show image and calculate distance using google api
@@ -51,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showTapInfo(String name, String address) {
+    private void showTapInfo(AddressInfo addressInfo) {
         final AlertDialog.Builder addressBuilder = new AlertDialog.Builder(MainActivity.this);
-        addressBuilder.setMessage(address);
+        addressBuilder.setMessage(addressInfo.getAddress());
         final AlertDialog mapAddress = addressBuilder.create();
         mapAddress.show();
         new Handler().postDelayed(new Runnable() {
@@ -62,5 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 mapAddress.dismiss();
             }
         }, 2000);
+
+        LocationService.getInstance().setBuildingDetails(addressInfo);
+        Intent intent = new Intent(this, DetailInfoActivity.class);
+        startActivity(intent);
     }
 }

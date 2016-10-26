@@ -1,4 +1,4 @@
-package edu.sjsu.sjsumap;
+package edu.sjsu.sjsumap.model;
 
 import android.widget.ImageView;
 
@@ -20,6 +20,8 @@ public class AddressInfo {
     String name;
     String address;
 
+    int imageId;
+
     ImageView imageView = null;
     //link for street view
 
@@ -31,7 +33,7 @@ public class AddressInfo {
         this.y2 = y2;
     }
 
-    boolean isTheBuilding(float x, float y) {
+    public boolean isTheBuilding(float x, float y) {
         if (x1 <= x && x <= x2 && y1 <= y && y <= y2) {
             return true;
         }
@@ -52,5 +54,13 @@ public class AddressInfo {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 }
