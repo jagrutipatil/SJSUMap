@@ -27,4 +27,9 @@ public class LatLong {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "Lat:" + latitude + "\tlng:"+longitude;
+    }
 }
