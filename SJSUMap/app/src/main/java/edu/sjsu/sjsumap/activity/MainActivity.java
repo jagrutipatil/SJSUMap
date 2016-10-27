@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         kingsLibrary.setName("King Library");
         kingsLibrary.setAddress("Dr. Martin Luther King, Jr. Library,\n150 East San Fernando Street,\nSan Jose, CA 95112");
-        kingsLibrary.setLatLong(new LatLong(37.335507, -121.884999));
+        kingsLibrary.setLatLong(new LatLong(37.335304, -121.885063));
         kingsLibrary.setImageId(R.drawable.kingslibrary);
         buildingInfoList.add(kingsLibrary);
 
@@ -84,11 +84,13 @@ public class MainActivity extends AppCompatActivity {
         String stringURL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
                 Double.toString(currentLocation.getLatitude()) +
                 "," +
-                Double.toString(currentLocation.getLatitude()) +
+                Double.toString(currentLocation.getLongitude()) +
                 "&destinations=" +
                 Double.toString(destination.getLatitude()) +
                 "," +
-                Double.toString(destination.getLongitude());
+                Double.toString(destination.getLongitude()) +
+                "&mode=" + "bicycling";
+        System.out.println("URL: " + stringURL);
         return stringURL;
     }
 
