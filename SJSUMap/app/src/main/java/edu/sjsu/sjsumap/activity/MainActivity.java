@@ -1,6 +1,7 @@
 package edu.sjsu.sjsumap.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -40,6 +44,7 @@ import java.util.List;
 
 import edu.sjsu.sjsumap.R;
 import edu.sjsu.sjsumap.model.BuildingInfo;
+import edu.sjsu.sjsumap.model.CampusInfo;
 import edu.sjsu.sjsumap.model.LatLong;
 import edu.sjsu.sjsumap.model.LocationService;
 import edu.sjsu.sjsumap.tasks.GoogleAPITask;
@@ -47,9 +52,11 @@ import edu.sjsu.sjsumap.tasks.GoogleAPITask;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView map = null;
+    private EditText searchBar = null;
+    private Button search = null;
+    private Button clear = null;
     final private int ACCESS_COARSE_LOCATION = 1;
-    List<BuildingInfo> buildingInfoList = new ArrayList<>();
-
+    List<BuildingInfo> buildingInfoList = CampusInfo.getInstance().getBuildingInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +67,6 @@ public class MainActivity extends AppCompatActivity {
         requestPermissions();
         getCurrentLocation();
         //TODO Add Search bar
-
-        BuildingInfo kingsLibrary = new BuildingInfo(131, 257, 668, 862);
-        kingsLibrary.setName("King Library");
-        kingsLibrary.setAddress("Dr. Martin Luther King, Jr. Library,\n150 East San Fernando Street,\nSan Jose, CA 95112");
-        kingsLibrary.setLatLong(new LatLong(37.335304, -121.885063));
-        kingsLibrary.setImageId(R.drawable.kingslibrary);
-        buildingInfoList.add(kingsLibrary);
-
-
-        final BuildingInfo engg = new BuildingInfo(131, 257, 668, 862);
-        engg.setName("Engineering Building");
-        engg.setAddress("San José State University Charles W. Davidson College of Engineering, 1 Washington Square, San Jose, CA 95112");
-        engg.setLatLong(new LatLong(37.335142, -121.881276));
-        engg.setImageId(R.drawable.eng_building);
-        buildingInfoList.add(engg);
 
         map.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -104,6 +96,30 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
+                String search = searchBar.getText().toString();
+                highlightSelectedBuilding(search);
+            }
+        });
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.getText().clear();
+            }
+        });
+
+    }
+
+    private void highlightSelectedBuilding(String search) {
+        //make the selected visible
+
     }
 
     private void getCurrentLocation() {
