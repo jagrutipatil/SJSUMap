@@ -1,5 +1,7 @@
 package edu.sjsu.sjsumap.model;
 
+import android.widget.ImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +21,13 @@ public class CampusInfo {
         kingsLibrary.setAddress("Dr. Martin Luther King, Jr. Library,\n150 East San Fernando Street,\nSan Jose, CA 95112");
         kingsLibrary.setLatLong(new LatLong(37.335304, -121.885063));
         kingsLibrary.setImageId(R.drawable.kingslibrary);
+        kingsLibrary.setPinId(R.id.pin_library);
         buildingInfoList.add(kingsLibrary);
 
 
-        final BuildingInfo engg = new BuildingInfo(131, 257, 668, 862);
+        BuildingInfo engg = new BuildingInfo(131, 257, 668, 862);
         engg.setName("Engineering Building");
-        engg.setAddress("San José State University Charles W. Davidson College of Engineering, 1 Washington Square, San Jose, CA 95112");
+        engg.setAddress("San José State University Charles W. Davidson College of Engineering, 1 Washington Square,\n San Jose, CA 95112");
         engg.setLatLong(new LatLong(37.335142, -121.881276));
         engg.setImageId(R.drawable.eng_building);
         buildingInfoList.add(engg);

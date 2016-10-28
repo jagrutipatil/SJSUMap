@@ -44,17 +44,17 @@
         android:id="@+id/map"
         />
     <ImageView
-        android:visibility="visible"
-        android:id="@+id/imageView2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:visibility="invisible"
+        android:id="@+id/pin_library"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/locimage"
-        android:layout_alignTop="@+id/map"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="158dp"
+        android:layout_below="@+id/searchbutton"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="197dp" />
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

@@ -21,6 +21,8 @@ public class BuildingInfo {
 
     int imageId;
 
+    int pinId;
+
     String distance;
     String time;
 
@@ -87,5 +89,11 @@ public class BuildingInfo {
         this.time = time;
     }
 
+    public int getPinId() {
+        return pinId;
+    }
 
+    public void setPinId(int pinId) {
+        this.pinId = pinId;
+    }
 }

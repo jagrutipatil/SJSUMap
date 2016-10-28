@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         map = (ImageView) findViewById(R.id.map);
 
+        searchBar = (EditText) findViewById(R.id.searchbar);
+        search = (Button) findViewById(R.id.searchbutton);
+        clear = (Button) findViewById(R.id.clear);
+
         requestPermissions();
         getCurrentLocation();
         //TODO Add Search bar
@@ -75,11 +79,15 @@ public class MainActivity extends AppCompatActivity {
                 coordinates[0] = event.getX();
                 coordinates[1] = event.getY();
 
+                int[] imageLocation = new int[2];
+                //get image coordinates
+                map.getLocationOnScreen(imageLocation);
+
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 ImageView imageView = new ImageView(getApplicationContext());
                 layoutParams.setMargins((int)coordinates[0], (int)coordinates[1], 0, 0);
                 imageView.setLayoutParams(layoutParams);
-                showTapInfo(LocationService.getInstance().getCurrentLocation().toString());
+//                showTapInfo(LocationService.getInstance().getCurrentLocation().toString());
 
                 //TODO find out valid building click
                 for (BuildingInfo buildingInfo : buildingInfoList) {
@@ -97,11 +105,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(view, 0);
+                }
+            }
+        });
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                }
 
                 String search = searchBar.getText().toString();
                 highlightSelectedBuilding(search);
@@ -112,14 +134,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 searchBar.getText().clear();
+                BuildingInfo buildingInfo= LocationService.getInstance().getBuildingDetails();
+                if (buildingInfo != null) {
+                    ImageView pin = (ImageView) findViewById(buildingInfo.getPinId());
+                    pin.setVisibility(View.INVISIBLE);
+                }
             }
         });
-
     }
 
     private void highlightSelectedBuilding(String search) {
         //make the selected visible
-
+        search = search.toLowerCase();
+        for (BuildingInfo buildingInfo : buildingInfoList) {
+            String buildingLowerCase = buildingInfo.getName().toLowerCase();
+            if (buildingLowerCase.contains(search)) {
+                showTapInfo("You Selected: " + buildingInfo.getName());
+                ImageView pin = (ImageView) findViewById(buildingInfo.getPinId());
+                pin.setVisibility(View.VISIBLE);
+                LocationService.getInstance().setBuildingDetails(buildingInfo);
+            }
+        }
     }
 
     private void getCurrentLocation() {
@@ -228,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 Double.toString(destination.getLatitude()) +
                 "," +
                 Double.toString(destination.getLongitude()) +
-                "&mode=" + "bicycling";
+                "&mode=walking&key=AIzaSyASyxw9ZWTltQldm5PTGlOoOlxF9PbK_Tw";
         System.out.println("URL: " + stringURL);
         return stringURL;
     }
