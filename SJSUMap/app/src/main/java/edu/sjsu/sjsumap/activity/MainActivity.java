@@ -135,13 +135,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 searchBar.getText().clear();
                 BuildingInfo buildingInfo= LocationService.getInstance().getBuildingDetails();
-                if (buildingInfo != null) {
-                    ImageView pin = (ImageView) findViewById(buildingInfo.getPinId());
+
+                for (BuildingInfo buildingInfo1 : buildingInfoList) {
+                    ImageView pin = (ImageView) findViewById(buildingInfo1.getPinId());
                     pin.setVisibility(View.INVISIBLE);
                 }
             }
         });
-    }
+}
 
     private void highlightSelectedBuilding(String search) {
         //make the selected visible

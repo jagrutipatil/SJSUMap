@@ -56,5 +56,63 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/pin_engg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/locimage"
+        android:layout_alignTop="@+id/pin_library"
+        android:layout_alignLeft="@+id/searchbutton"
+        android:layout_alignStart="@+id/searchbutton"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/pin_su"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/locimage"
+        android:layout_below="@+id/pin_engg"
+        android:layout_alignLeft="@+id/pin_engg"
+        android:layout_alignStart="@+id/pin_engg"
+        android:layout_marginBottom="10dp" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/pin_bbc"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/locimage"
+        android:layout_below="@+id/pin_engg"
+        android:layout_alignRight="@+id/clear"
+        android:layout_alignEnd="@+id/clear"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="35dp" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/pin_yuh"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/locimage"
+        android:layout_alignTop="@+id/pin_bbc"
+        android:layout_alignLeft="@+id/pin_library"
+        android:layout_alignStart="@+id/pin_library"
+        android:layout_marginTop="25dp" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/pin_spg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/locimage"
+        android:layout_marginTop="62dp"
+        android:layout_below="@+id/pin_yuh"
+        android:layout_toLeftOf="@+id/pin_engg"
+        android:layout_toStartOf="@+id/pin_engg"
+        android:layout_marginRight="15dp" />
+
 
 </RelativeLayout>
