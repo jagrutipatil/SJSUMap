@@ -16,6 +16,8 @@ public class BuildingInfo {
 
     LatLong latLong;
 
+    LatLong streetViewLatLng;
+
     String name;
     String address;
 
@@ -95,5 +97,13 @@ public class BuildingInfo {
 
     public void setPinId(int pinId) {
         this.pinId = pinId;
+    }
+
+    public LatLong getStreetViewLatLng() {
+        return streetViewLatLng;
+    }
+
+    public void setStreetViewLatLng(LatLong streetViewLatLng) {
+        this.streetViewLatLng = streetViewLatLng;
     }
 }

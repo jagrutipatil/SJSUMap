@@ -14,7 +14,6 @@ import android.widget.TextView;
 import edu.sjsu.sjsumap.R;
 import edu.sjsu.sjsumap.model.BuildingInfo;
 import edu.sjsu.sjsumap.model.LocationService;
-import edu.sjsu.sjsumap.tasks.StreetViewTask;
 
 //TODO backpress
 
@@ -42,14 +41,15 @@ public class DetailInfoActivity extends AppCompatActivity {
         address.setText(buildingInfo.getAddress());
         distance.setText(buildingInfo.getDistance());
         time.setText(buildingInfo.getTime());
-
+        final double latitude = buildingInfo.getStreetViewLatLng().getLatitude();
+        final double longitude = buildingInfo.getStreetViewLatLng().getLongitude();
         locImage.setImageResource(buildingInfo.getImageId());
 
         //TODO harcoded lat, long
         streetView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent streetView = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("google.streetview:cbll="+-33.87365+","+151.20689+"&cbp=1,99.56,,1,-5.27&mz=21"));
+                Intent streetView = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("google.streetview:cbll=" + latitude +","+ longitude +"&cbp=1,99.56,,1,-5.27&mz=21"));
                 streetView.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(streetView);
             }

@@ -14,54 +14,77 @@
         android:text="Building Name:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
         android:id="@+id/buildingName"
-        android:layout_alignParentTop="true" />
+        android:layout_marginBottom="27dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_above="@+id/bAddress"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:text="Building Address:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buildingName"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:id="@+id/bAddress" />
+        android:id="@+id/bAddress"
+        android:layout_marginBottom="26dp"
+        android:layout_above="@+id/tDistance"
+        android:layout_alignLeft="@+id/buildingName"
+        android:layout_alignStart="@+id/buildingName" />
 
     <TextView
         android:text="Distance:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_below="@id/bAddress"
-        android:id="@+id/tDistance" />
+        android:id="@+id/tDistance"
+        android:layout_marginBottom="23dp"
+        android:layout_above="@+id/time"
+        android:layout_alignLeft="@+id/bAddress"
+        android:layout_alignStart="@+id/bAddress" />
 
     <TextView
         android:text="Time:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/time"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/tDistance" />
+        android:layout_marginBottom="56dp"
+        android:layout_above="@+id/streetView"
+        android:layout_alignLeft="@+id/tDistance"
+        android:layout_alignStart="@+id/tDistance"
+        android:layout_alignRight="@+id/tDistance"
+        android:layout_alignEnd="@+id/tDistance" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Street View"
         android:id="@+id/streetView"
-        android:layout_below="@id/time"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/loc_address"
+        android:id="@+id/loc_address"
+        android:layout_alignBottom="@+id/bAddress"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/locimage"
-        android:layout_below="@id/time"
-        android:layout_marginLeft="50dp"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/locimage" />
+        android:id="@+id/locimage"
+        android:layout_above="@+id/buildingName"
+        android:layout_marginBottom="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center" />
+
 </RelativeLayout>

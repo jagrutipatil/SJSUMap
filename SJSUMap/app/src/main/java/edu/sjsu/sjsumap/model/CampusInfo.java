@@ -20,6 +20,7 @@ public class CampusInfo {
         kingsLibrary.setName("King Library");
         kingsLibrary.setAddress("Dr. Martin Luther King, Jr. Library,\n150 East San Fernando Street,\nSan Jose, CA 95112");
         kingsLibrary.setLatLong(new LatLong(37.335304, -121.885063));
+        kingsLibrary.setStreetViewLatLng(new LatLong(37.335858, -121.885899));
         kingsLibrary.setImageId(R.drawable.kingslibrary);
         kingsLibrary.setPinId(R.id.pin_library);
         buildingInfoList.add(kingsLibrary);
@@ -29,6 +30,7 @@ public class CampusInfo {
         engg.setName("Engineering Building");
         engg.setAddress("San JosÃ© State University Charles W. Davidson College of Engineering, 1 Washington Square,\n San Jose, CA 95112");
         engg.setLatLong(new LatLong(37.337007, -121.881600));
+        engg.setStreetViewLatLng(new LatLong(37.337540, -121.881563));
         engg.setImageId(R.drawable.eng_building);
         engg.setPinId(R.id.pin_engg);
         buildingInfoList.add(engg);
@@ -38,7 +40,8 @@ public class CampusInfo {
         yosh_hall.setName("Yoshihiro Uchida Hall");
         yosh_hall.setAddress("Yoshihiro Uchida Hall,\n San Jose, CA 95112");
         yosh_hall.setLatLong(new LatLong(37.333666, -121.883768));
-        //yosh_hall.setImageId(R.drawable.yosh_hall);
+        yosh_hall.setStreetViewLatLng(new LatLong(37.333713, -121.883757));
+        yosh_hall.setImageId(R.drawable.ychall);
         yosh_hall.setPinId(R.id.pin_yuh);
         buildingInfoList.add(yosh_hall);
 
@@ -46,7 +49,8 @@ public class CampusInfo {
         student_union.setName("Student Union");
         student_union.setAddress("Student Union Building,\n San Jose, CA 95112");
         student_union.setLatLong(new LatLong(37.336342, -121.881289));
-        //student_union.setImageId(R.drawable.student_union);
+        student_union.setStreetViewLatLng(new LatLong(37.336043, -121.881919));
+        student_union.setImageId(R.drawable.student_union);
         student_union.setPinId(R.id.pin_su);
         buildingInfoList.add(student_union);
 
@@ -55,7 +59,8 @@ public class CampusInfo {
         bbc.setName("BBC");
         bbc.setAddress("Boccardo Business Complex,\n San Jose, CA 95112");
         bbc.setLatLong(new LatLong(37.336559, -121.878669));
-        //bbc.setImageId(R.drawable.bbc);
+        bbc.setImageId(R.drawable.bbc);
+        bbc.setStreetViewLatLng(new LatLong(37.336743, -121.878717));
         bbc.setPinId(R.id.pin_bbc);
         buildingInfoList.add(bbc);
 
@@ -63,7 +68,8 @@ public class CampusInfo {
         spg.setName("South Parking Garage");
         spg.setAddress("San Jose State University South Garage,\n 330 South 7th Street,\n San Jose, CA 95112");
         spg.setLatLong(new LatLong(37.333065, -121.880517));
-        //spg.setImageId(R.drawable.spg);
+        spg.setStreetViewLatLng(new LatLong(37.333616, -121.88027));
+        spg.setImageId(R.drawable.garage);
         spg.setPinId(R.id.pin_spg);
         buildingInfoList.add(spg);
     }

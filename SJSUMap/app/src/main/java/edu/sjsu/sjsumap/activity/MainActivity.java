@@ -70,34 +70,37 @@ public class MainActivity extends AppCompatActivity {
 
         requestPermissions();
         getCurrentLocation();
-        //TODO Add Search bar
 
         map.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                float[] coordinates = new float[2];
-                coordinates[0] = event.getX();
-                coordinates[1] = event.getY();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    float[] coordinates = new float[2];
+                    coordinates[0] = event.getX();
+                    coordinates[1] = event.getY();
 
-                int[] imageLocation = new int[2];
-                //get image coordinates
-                map.getLocationOnScreen(imageLocation);
+                    int[] imageLocation = new int[2];
+                    //get image coordinates
+                    map.getLocationOnScreen(imageLocation);
 
-                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                ImageView imageView = new ImageView(getApplicationContext());
-                layoutParams.setMargins((int)coordinates[0], (int)coordinates[1], 0, 0);
-                imageView.setLayoutParams(layoutParams);
-//                showTapInfo(LocationService.getInstance().getCurrentLocation().toString());
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    ImageView imageView = new ImageView(getApplicationContext());
+                    layoutParams.setMargins((int)coordinates[0], (int)coordinates[1], 0, 0);
+                    imageView.setLayoutParams(layoutParams);
 
-                //TODO find out valid building click
-                for (BuildingInfo buildingInfo : buildingInfoList) {
-                    if (buildingInfo.isTheBuilding(coordinates[0], coordinates[1])) {
-                        try {
-                            LocationService.getInstance().setBuildingDetails(buildingInfo);
-                            new GoogleAPITask(getApplicationContext()).execute(getGoogleAPIURL(LocationService.getInstance().getCurrentLocation(), buildingInfo.getLatLong()));
-                            showTapInfo(buildingInfo.getAddress());
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    //TODO find out valid building click
+                    for (BuildingInfo buildingInfo : buildingInfoList) {
+                        if (buildingInfo.isTheBuilding(coordinates[0], coordinates[1])) {
+                            try {
+                                if (LocationService.getInstance().getCurrentLocation() != null) {
+                                    LocationService.getInstance().setBuildingDetails(buildingInfo);
+                                    new GoogleAPITask(getApplicationContext()).execute(getGoogleAPIURL(LocationService.getInstance().getCurrentLocation(), buildingInfo.getLatLong()));
+                                } else {
+                                    requestPermissions();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
