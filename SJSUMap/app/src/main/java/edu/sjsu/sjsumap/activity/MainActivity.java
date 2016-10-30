@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         getCurrentLocation();
 
         map.setOnTouchListener(new View.OnTouchListener() {
-
+            /*
             private void showCurrentLocation() {
                 if (LocationService.getInstance().getCurrentLocation() != null) {
 
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     Canvas canvas = new Canvas(mutableBitmap);
                     canvas.drawCircle((int)x,(int)y , 20, new Paint(Color.RED));
                 }
-            }
+            }*/
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -235,14 +235,30 @@ public class MainActivity extends AppCompatActivity {
             if (!isGPSOn && !isNetworkOn) {
                 showTapInfo("Please enable GPS/network");
                 requestPermissions();
+                showWhenGPSOff();
             }
 
             if (isGPSOn) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+                if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
+                    LocationService.getInstance().setCurrentLocation(new LatLong(
+                            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(),
+                            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()
+                    ));
+                }
+
             }
 
             if (isNetworkOn) {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
+                if (locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null) {
+                    LocationService.getInstance().setCurrentLocation(new LatLong(
+                            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(),
+                            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude()
+                    ));
+                }
             }
 
             if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
@@ -272,24 +288,7 @@ public class MainActivity extends AppCompatActivity {
             case ACCESS_COARSE_LOCATION:
                 if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (!gpsStatus.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-                        builder.setMessage("GPS is disabled. Enable for GPS? ")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(@SuppressWarnings("unused") DialogInterface dialog, @SuppressWarnings("unused") int which) {
-                                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                        android.app.AlertDialog dialog = builder.create();
-                        dialog.show();
+                        showWhenGPSOff();
                     }
                 } else {
                     Toast.makeText(getBaseContext(), "App requries Location to perform all Features", Toast.LENGTH_SHORT).show();
@@ -301,6 +300,27 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void showWhenGPSOff(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setMessage("GPS is disabled. Enable for GPS? ")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@SuppressWarnings("unused") DialogInterface dialog, @SuppressWarnings("unused") int which) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        android.app.AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private String getGoogleAPIURL(LatLong currentLocation, LatLong destination) throws IOException {
