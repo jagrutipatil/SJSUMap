@@ -6,6 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -72,9 +77,45 @@ public class MainActivity extends AppCompatActivity {
         getCurrentLocation();
 
         map.setOnTouchListener(new View.OnTouchListener() {
+
+            private void showCurrentLocation() {
+                if (LocationService.getInstance().getCurrentLocation() != null) {
+
+                    double latitude    = LocationService.getInstance().getCurrentLocation().getLongitude(); // (φ)
+                    double longitude   = LocationService.getInstance().getCurrentLocation().getLatitude();   // (λ)
+
+                    double mapWidth    = map.getWidth();
+                    double mapHeight   = map.getHeight();
+
+// get x value
+                    double x = (longitude+180)*(mapWidth/360);
+
+// convert from degrees to radians
+                    double latRad = latitude*Math.PI/180;
+
+// get y value
+                    double term = Math.tan((Math.PI/4)+(latRad/2));
+
+                    double mercN = Math.log(Math.abs(term));
+                    double y     = (mapHeight/2)-(mapWidth*mercN/(2*Math.PI));
+
+                    x = (x*250)/801;
+                    y = (y*670)/1185;
+
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.campusmap);
+                    Bitmap mutableBitmap = bitmap.copy( Bitmap.Config.ARGB_8888, true);
+                    map.setImageBitmap(mutableBitmap);
+                    Canvas canvas = new Canvas(mutableBitmap);
+                    canvas.drawCircle((int)x,(int)y , 20, new Paint(Color.RED));
+                }
+            }
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                    //showCurrentLocation();
+
                     float[] coordinates = new float[2];
                     coordinates[0] = event.getX();
                     coordinates[1] = event.getY();
@@ -123,9 +164,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 View view = getCurrentFocus();
+                for (BuildingInfo buildingInfo1 : buildingInfoList) {
+                    ImageView pin = (ImageView) findViewById(buildingInfo1.getPinId());
+                    pin.setVisibility(View.INVISIBLE);
+                }
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    //imm.toggleSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(),0);
                 }
 
                 String search = searchBar.getText().toString();

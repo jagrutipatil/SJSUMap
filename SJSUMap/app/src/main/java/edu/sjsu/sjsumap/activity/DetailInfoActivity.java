@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +24,7 @@ public class DetailInfoActivity extends AppCompatActivity {
     ImageView locImage;
     TextView time;
     TextView distance;
-    Button streetView;
+    ImageButton streetView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,9 @@ public class DetailInfoActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.buildingName);
         address = (TextView) findViewById(R.id.bAddress);
         time = (TextView) findViewById(R.id.time);
+        time = (TextView) findViewById(R.id.time);
         distance = (TextView) findViewById(R.id.tDistance);
-        streetView = (Button) findViewById(R.id.streetView);
+        streetView = (ImageButton) findViewById(R.id.streetView);
         locImage = (ImageView)findViewById(R.id.locimage);
 
         BuildingInfo buildingInfo = LocationService.getInstance().getBuildingDetails();
